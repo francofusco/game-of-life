@@ -24,10 +24,12 @@ target_include_directories(${GAME_OF_LIFE_EXE}
     PUBLIC piksel/src
 )
 
+# Link piksel to the executable
 target_link_libraries(${GAME_OF_LIFE_EXE}
     piksel
 )
 
 if(DEBUG)
+  # Enable the use of the debug macro
   target_compile_definitions(${GAME_OF_LIFE_EXE} PRIVATE DEBUG_ON)
 endif(DEBUG)
