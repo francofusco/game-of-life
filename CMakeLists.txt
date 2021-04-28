@@ -28,7 +28,7 @@ target_link_libraries(${GAME_OF_LIFE_EXE}
     piksel
 )
 
-target_compile_features(${GAME_OF_LIFE_EXE} PRIVATE cxx_std_14)
+target_compile_features(${GAME_OF_LIFE_EXE} PRIVATE cxx_std_17)
 
 if(DEBUG)
   # Enable the use of the debug macro
