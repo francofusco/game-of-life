@@ -1,7 +1,6 @@
 # Project configuration
 cmake_minimum_required(VERSION 3.12)
 project(game_of_life)
-set(CMAKE_CXX_STANDARD 11)
 
 # copile options
 option(DEBUG "Enable debug. If 'ON', it will define 'DEBUG_ON' during the compilation." OFF)
@@ -28,6 +27,8 @@ target_include_directories(${GAME_OF_LIFE_EXE}
 target_link_libraries(${GAME_OF_LIFE_EXE}
     piksel
 )
+
+target_compile_features(${GAME_OF_LIFE_EXE} PRIVATE cxx_std_14)
 
 if(DEBUG)
   # Enable the use of the debug macro

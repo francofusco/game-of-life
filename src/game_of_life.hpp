@@ -6,7 +6,7 @@
 class GameOfLife : public piksel::BaseApp {
 public:
   static unsigned int constexpr DEFAULT_SIZE = 30; ///< Default grid size, if not given to the constructor.
-  static float constexpr PIXEL_SIZE = 16.0f;
+  static float constexpr PIXEL_SIZE = 16.0f; ///< Size of a cell.
 
   /// Initialize an empty grid of given size.
   GameOfLife(unsigned int width, unsigned int height);
@@ -58,5 +58,8 @@ private:
   int max_update_counter_; ///< Value at which the counter should be reset everytime.
   int mouse_x_; ///< Store current mouse X position.
   int mouse_y_; ///< Store current mouse Y position.
+
+  // text-related variables
+  bool show_text_{true};
 
 };

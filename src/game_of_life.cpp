@@ -1,5 +1,6 @@
 #include "game_of_life.hpp"
 #include "debug.hpp"
+#include <piksel/ext/rng.hpp>
 
 
 GameOfLife::GameOfLife(
@@ -60,11 +61,32 @@ void GameOfLife::draw(
   piksel::Graphics& g
 )
 {
+  // black background
+  g.background(glm::vec4(0,0,0,1));
+
+  // Print explanation if needed
+  if(show_text_) {
+    constexpr float textcolor = 1.f;
+    constexpr float textstroke = 0.95f;
+    g.fill(glm::vec4(textcolor,textcolor,textcolor,1));
+    g.stroke(glm::vec4(textstroke,textstroke,textstroke,1));
+    g.textSize(30.);
+    g.text("Game of Life", 110, 50);
+    g.textSize(18.);
+    g.text(
+      "Mouse click :  toggle cell\n"\
+      "   space :  play/pause\n"\
+      "   +/- :  change speed\n"\
+      "      R :  randomize",
+      80, 100
+    );
+
+  }
+
   // Apply some scaling to make it easier to see the points
   g.scale(PIXEL_SIZE, PIXEL_SIZE);
-  // black bacground
-  g.background(glm::vec4(0,0,0,1));
   // pixels will be drawn in white
+  g.fill(glm::vec4(1,1,1,1));
   g.stroke(glm::vec4(1,1,1,1));
 
   // print the current grid state
@@ -155,6 +177,7 @@ void GameOfLife::keyPressed(
 )
 {
   DEBUG("Pressed key with code " << key);
+  show_text_ = false;
 
   // pressing space allows to pause/play the game
   if(key == ' ') {
@@ -180,6 +203,15 @@ void GameOfLife::keyPressed(
     max_update_counter_++;
     DEBUG("max_update_counter_ incremented to " << max_update_counter_);
   }
+
+  if(key == 'R') {
+    DEBUG("Adding random cells");
+    for(int i=0; i<grid_.size(); i++) {
+      if(piksel::Rng::getInstance().random(0,1) > 0.75) {
+        toggle(i);
+      }
+    }
+  }
 }
 
 
@@ -188,6 +220,7 @@ void GameOfLife::mousePressed(
 )
 {
   DEBUG("Pressed mouse button with ID " << button);
+  show_text_ = false;
   // If the game has been paused, allow to change the content of the grid
   if(update_counter_ < 0) {
     int row = std::floor(mouse_y_ / PIXEL_SIZE);
